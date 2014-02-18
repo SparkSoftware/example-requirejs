@@ -116,12 +116,80 @@ Often in an application you require a common set of libraries to be loaded. Perh
 
 _NOTE: The example application chooses to alias each package under a virtual folder `pkg` to ensure that a dependency on `jquery` can be easily distinguished from `pkg/jquery`._
 
-**Views
+**Views**
 
 Views follow a similar pattern to _packages_. The _view_ folder structure mimics the ASP.NET MVC convention for the most part. A view found at `views\home\index` will expect the main module to exist at `~/Content/js/view/home/index/main.js`. Why _main.js_ instead of _index.js_ you may ask? Two reasons, the first being that by using a folder to represent the view, all related views are kept organized. The second reason is that scanning for _main.js_ to find modules to optimize  is much nicer than trying to optmize down all files. 
 
-** build.tt and build.js
+_NOTE: Minor modification will be required to support Areas_
+
+**Build.tt and Build.js**
 
 The _build.tt_ text template is used to generate the _build.js_ requirejs optimization configuration file. The current implementation of _built.tt_ will bundle all modules referenced by main in to a single file that will _always_ be loaded for each view. All _packages_ will also be bundled in to a single file (and potentially included in main if referenced). Finally, all _main_ view files will be bundled together to ensure no more than two JavaScript file requests per page if desired.
 
 _NOTE: The example project uses a CDN for jQuery, Knockout and Bootstrap resulting in three additional requests._
+
+## Build Process
+
+The great thing about RequireJS is that out of the box, no build action is required. When ready to move your application in to your QA environment (or local test environment) you can simply run `publish.cmd` that will compile, minify and combine your JavaScript modules. 
+
+_NOTE: The example build script will copy back the versioned content files to the project folder for convenience. Normally this additional copy task would not be required._
+
+The published files may be found in the root `dist` folder. The un-optimized content files may be found in the `Content` folder. The optimized content files will be placed in a versioned content folder similar to `Content-0.0.0.0`. A versioned content folder is used as a cache busting mechanism. Although one could use [urlArgs](http://requirejs.org/docs/api.html#config-urlArgs) this has several undesirable side-effects. Most notably, if urlArgs is used, your CDN files will also be cache busted. In addition, some third-party libraries will pass down query string parameters resulting in unexpected side effects (i.e., MapQuest -- preventing map tiles from being cached).
+
+Given that content may exist in `Content` for development and debugging and in `Content.X.X.X.X` for production, several [UrlExtensions](https://github.com/SparkSoftware/Spark.Examples.RequireJs/blob/master/src/Example/Controllers/UrlExtensions.cs) exist to abstract away the underlying file source. 
+
+* _GetScriptBase()_ - Returns the root path to the script modules (i.e., _~/Content/js/_).
+* _Script(relativePath)_ - Returns a script path (i.e., `Url.Script("lib\module.js")` maps to _~/Content/js/lib/main.js_).
+* _StyleSheet(relativePath)_ - Returns a stylesheet path (i.e., `Url.Script("example.css")` maps to _~/Content/css/example.css_).
+* _Image(relativePath)_ - Returns an image path (i.e., `Url.Image("sample.png")` maps to _~/Content/img/sample.png_).
+
+## Referencing Modules
+
+**Require Module(s)**
+
+In order to wire up view specific RequireJS dependencies you may explicitly include the required script as follows:
+
+    @section scripts
+    {
+        <script type="text/javascript" src="@Url.Script(MainModule + ".js")"></script>
+    }
+
+An alternate approach that was first introduced by a colleague [Simon Green](http://captaincodeman.com/) leverages custom data attributes. The approach used in the example extends the concept originally introduced by [Simon Green](http://captaincodeman.com/) by adding a separate `data-require` attribute and honoring the DOM's hierarchical structure. 
+
+    <div data-require="@MainModule" />
+    
+or
+    
+    <div data-require="MyModule1, MyModule2" />
+    
+**Knockout Models**
+
+If you use [KnockoutJS](http://knockoutjs.com/) an additional data attribute may be used to wire-up your knockout view models via the `data-model` attribute.
+
+    <div data-model="@MainModule">
+        <h3 data-bind="text: description"></h3>
+        <p data-bind="text: additionalInformation"></p>
+    </div>
+
+_NOTE: The reference module must return the view model to bind to the DOM._
+
+**Hierarchical Dependencies**
+
+Finally, you may choose to leverage the hierarchical nature of the DOM to ensure dependencies are loaded in a specific order. 
+
+    <div data-require="@MainModule">
+    
+        <address data-model="@Module("address")">
+            <span data-bind="text: street1"></span><br />
+            <span data-bind="text: street2"></span><br />
+            <abbr title="Phone">P:</abbr><span data-bind="text: phone"></span>
+        </address>
+    
+        <address data-model="@Module("email")">
+            <strong>Support:</strong> <a href="#" data-bind="text: support, attr: { href: 'mailto:' + support() }"></a><br />
+            <strong>Marketing:</strong> <a href="#" data-bind="text: marketing, attr: { href: 'mailto:' + marketing() }"></a>
+        </address>
+    
+    </div>
+    
+_NOTE:  This is an atypical use case and you should evaluate your design to see if truly warranted. In the above example, the main module is referenced first to ensure that when optimized, the explicit model modules have already been loaded. Typically your main module would return both models and this would not be required._
