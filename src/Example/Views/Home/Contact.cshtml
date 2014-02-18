@@ -1,0 +1,29 @@
+﻿@using System.Reflection
+@{
+    ViewBag.Title = "Contact";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+@*
+    NOTE:
+    Atypical use case illustrated below just for the purposes of demonstrating hierarchical require for models/dependencies.
+    May or may not be useful, but supported none-the-less...
+*@
+
+<div data-require="@MainModule">
+
+    <address data-model="@Module("address")">
+        <span data-bind="text: street1"></span><br />
+        <span data-bind="text: street2"></span><br />
+        <abbr title="Phone">P:</abbr><span data-bind="text: phone"></span>
+    </address>
+
+    <address data-model="@Module("email")">
+        <strong>Support:</strong> <a href="#" data-bind="text: support, attr: { href: 'mailto:' + support() }"></a><br />
+        <strong>Marketing:</strong> <a href="#" data-bind="text: marketing, attr: { href: 'mailto:' + marketing() }"></a>
+    </address>
+
+</div>
+
+<div data-require="@Module("/view/shared/widget/main")"></div>

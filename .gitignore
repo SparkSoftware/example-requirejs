@@ -1,0 +1,15 @@
+# Build Files & Folders
+# -------------------------
+/src/.nuget/nuget.exe
+/src/.shared/VersionInfo.cs
+/src/Example/Content/build.js
+/src/Example/Content-*
+/src/packages/**
+/src/**/bin/**
+/src/**/obj/**
+/dist/**
+
+# User Specific Files
+# -------------------------
+/src/**/*.suo
+/src/**/*.user

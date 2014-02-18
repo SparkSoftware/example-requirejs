@@ -1,0 +1,139 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\Web\Microsoft.Web.Publishing.Tasks.dll"/>
+
+  <!--
+  * Build Configuration Properies
+  **************************************************
+  -->
+  <PropertyGroup>
+    <Platform Condition="'$(Platform)' == ''">Any CPU</Platform>
+    <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+    <ProductVersion Condition="'$(ProductVersion)' == ''">0.0.0.0</ProductVersion>
+    <BuildOutput Condition="'$(OutputDir)' == ''">..\dist</BuildOutput>
+    <WebOutput>$(BuildOutput)\spark.example.com</WebOutput>
+    <NodePackage>$(APPDATA)\npm</NodePackage>
+  </PropertyGroup>
+
+  <!--
+  * Clean
+  * Remove any output from previous builds.
+  **************************************************
+  -->
+  <Target Name="Clean">
+    <ItemGroup>
+      <CleanFiles Include="**\bin\**" Exclude="**\bin\**\*.vshost.exe" />
+      <CleanFiles Include="**\obj\**" />
+    </ItemGroup>
+
+    <Delete Files="@(CleanFiles)" />
+    <RemoveDir Directories="$(WebOutput)"/>
+    <RemoveDir Directories="$(BuildOutput)"/>
+    <MakeDir Directories="$(BuildOutput)" />
+  </Target>
+
+  <!--
+  * Configure
+  * Stamp assembly version and generate any build
+  * files that are user environment specific.
+  **************************************************
+  -->
+  <Target Name="Configure">
+    <WriteLinesToFile File=".shared/VersionInfo.cs" Overwrite="true" Lines="using System.Reflection%3b;;[assembly: AssemblyVersion(&quot;$(ProductVersion)&quot;)];[assembly: AssemblyFileVersion(&quot;$(ProductVersion)&quot;)];[assembly: AssemblyConfiguration(&quot;$(Configuration)&quot;)];" />
+  </Target>
+
+  <!--
+  * Compile
+  * Rebuild the project solution.
+  **************************************************
+  -->
+  <Target Name="Compile" DependsOnTargets="Clean;Configure;">
+    <MSBuild Projects="Example.sln" Targets="ReBuild" Properties="Configuration=$(Configuration);Platform=$(Platform)" />
+  </Target>
+
+  <!--
+  * Build
+  * Default entry point that compiles and tests
+  * code only (may create schema if required).
+  **************************************************
+  -->
+  <Target Name="Build">
+    <CallTarget Targets="Compile" />
+  </Target>
+
+  <!--
+  * CompileCss
+  * Compile LESS files and minify CSS for release.
+  **************************************************
+  -->
+  <Target Name="CompileCss">
+    <Exec Command="npm install -g less" Condition="!Exists('$(APPDATA)\npm\lessc')" />
+    <Exec Command="$(NodePackage)\lessc $(WebOutput)\Content\css\example.less > $(WebOutput)\Content\css\example.css" />
+    <Exec Command="$(NodePackage)\lessc -x $(WebOutput)\Content-$(ProductVersion)\css\example.less > $(WebOutput)\Content-$(ProductVersion)\css\example.css" />
+  </Target>
+
+  <!--
+  * CompileJs
+  * Minfiy JS files and optimize packages.
+  **************************************************
+  -->
+  <Target Name="CompileJs">
+    <Exec Command="npm install -g requirejs" Condition="!Exists('$(APPDATA)\npm\r.js')" />
+    <Exec Command="$(NodePackage)\r.js.cmd -o $(WebOutput)\Content-$(ProductVersion)\build.js" />
+
+    <!--TODO: As of RequireJS 2.1.11 should be able to enable allowSourceOverwrite to avoid extra move command -->
+    <RemoveDir Directories="$(WebOutput)\Content-$(ProductVersion)\js"/>
+    <Exec Command="move $(WebOutput)\Content-$(ProductVersion)\js-built $(WebOutput)\Content-$(ProductVersion)\js" />
+  </Target>
+
+  <!--
+  * PublishWebContent
+  * Publish the web files for deployment.
+  **************************************************
+  -->
+  <Target Name="PublishWebContent">
+    <ItemGroup>
+      <WebClientFiles Include="Example\bin\*.dll" />
+      <WebClientFiles Include="Example\Global.asax" />
+      <WebClientFiles Include="Example\**\*.config;" Exclude="Example\Web.Debug.config; Example\Web.Release.config; Example\packages.config;Example\Config\*.config;" />
+    </ItemGroup>
+    <ItemGroup>
+      <WebContentFiles Include="Example\Content\**\*.*" Exclude="Example\Content\build.tt; Example\Content\css\hvcs.css;" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(WebClientFiles)" DestinationFolder="$(WebOutput)\%(RecursiveDir)" SkipUnchangedFiles="false"/>
+    <Copy SourceFiles="@(WebContentFiles)" DestinationFolder="$(WebOutput)\Content\%(RecursiveDir)" SkipUnchangedFiles="false"/>
+    <Copy SourceFiles="@(WebContentFiles)" DestinationFolder="$(WebOutput)\Content-$(ProductVersion)\%(RecursiveDir)" SkipUnchangedFiles="false"/>
+
+    <TransformXml Source="Example\Web.config" Transform="Example\Web.$(Configuration).config" Destination="$(WebOutput)\Web.config" />
+
+    <CallTarget Targets="CompileCss" />
+    <CallTarget Targets="CompileJs" />
+  </Target>
+
+  <!--
+  * CopyPublishedToLocal
+  * Extra MSBuild target to copy publish content back to local working folder (useful for example only).
+  **************************************************
+  -->
+  <Target Name="CopyPublishedToLocal">
+    <ItemGroup>
+      <PublishedContent Include="$(WebOutput)\Content-$(ProductVersion)\**\*.*" />
+    </ItemGroup>
+
+    <RemoveDir Directories="Example\Content-$(ProductVersion)" ContinueOnError="true" />
+    
+    <Copy SourceFiles="@(PublishedContent)" DestinationFolder="Example\Content-$(ProductVersion)\%(RecursiveDir)" />
+  </Target>
+
+  <!--
+  * Publish
+  * Prepare the solution files for deployment.
+  **************************************************
+  -->
+  <Target Name="Publish" DependsOnTargets="Build">
+    <CallTarget Targets="PublishWebContent" />
+    <CallTarget Targets="CopyPublishedToLocal" />
+  </Target>
+
+</Project>

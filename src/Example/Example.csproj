@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5DFBFFFD-1E8C-45FE-B31C-7E7E32015007}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Spark.Example.MultiPageMvcWithRequireJs</RootNamespace>
+    <AssemblyName>Spark.Example.MultiPageMvcWithRequireJs</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TransformOnBuild>true</TransformOnBuild>
+    <TransformOutOfDateOnly>false</TransformOutOfDateOnly>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.0.0\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\.shared\ProductInfo.cs">
+      <Link>Properties\ProductInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\.shared\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\RequireViewPage.cs" />
+    <Compile Include="Controllers\UrlExtensions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\build.js">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>build.tt</DependentUpon>
+    </Content>
+    <Content Include="Content\css\example.css">
+      <DependentUpon>example.less</DependentUpon>
+    </Content>
+    <Content Include="Content\font\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\js\config.js" />
+    <Content Include="Content\js\lib\jquery\jquery.log.js" />
+    <Content Include="Content\js\lib\jquery\package.js" />
+    <Content Include="Content\js\lib\knockout\knockout.require.js" />
+    <Content Include="Content\js\lib\knockout\package.js" />
+    <Content Include="Content\js\main.js" />
+    <Content Include="Content\js\vendor\bootstrap\bootstrap.js" />
+    <Content Include="Content\js\vendor\html5shiv.js" />
+    <Content Include="Content\js\vendor\jquery\jquery.cookie.js" />
+    <Content Include="Content\js\vendor\jquery\jquery.js" />
+    <Content Include="Content\js\vendor\knockout\knockout.js" />
+    <Content Include="Content\js\vendor\knockout\knockout.postbox.js" />
+    <Content Include="Content\js\vendor\require.js" />
+    <Content Include="Content\js\vendor\respond.js" />
+    <Content Include="Content\js\view\home\about\main.js" />
+    <Content Include="Content\js\view\home\contact\main.js" />
+    <Content Include="Content\js\view\home\contact\address.js" />
+    <Content Include="Content\js\view\home\contact\email.js" />
+    <Content Include="Content\js\view\home\index\main.js" />
+    <Content Include="Content\js\view\home\index\model.js" />
+    <Content Include="Content\js\view\shared\widget\main.js" />
+    <Content Include="Content\js\view\shared\widget\model.js" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <Content Include="Content\css\bootstrap\alerts.less" />
+    <Content Include="Content\css\bootstrap\badges.less" />
+    <Content Include="Content\css\bootstrap\bootstrap.less" />
+    <Content Include="Content\css\bootstrap\breadcrumbs.less" />
+    <Content Include="Content\css\bootstrap\button-groups.less" />
+    <Content Include="Content\css\bootstrap\buttons.less" />
+    <Content Include="Content\css\bootstrap\carousel.less" />
+    <Content Include="Content\css\bootstrap\close.less" />
+    <Content Include="Content\css\bootstrap\code.less" />
+    <Content Include="Content\css\bootstrap\component-animations.less" />
+    <Content Include="Content\css\bootstrap\dropdowns.less" />
+    <Content Include="Content\css\bootstrap\forms.less" />
+    <Content Include="Content\css\bootstrap\glyphicons.less" />
+    <Content Include="Content\css\bootstrap\grid.less" />
+    <Content Include="Content\css\bootstrap\input-groups.less" />
+    <Content Include="Content\css\bootstrap\jumbotron.less" />
+    <Content Include="Content\css\bootstrap\labels.less" />
+    <Content Include="Content\css\bootstrap\list-group.less" />
+    <Content Include="Content\css\bootstrap\media.less" />
+    <Content Include="Content\css\bootstrap\mixins.less" />
+    <Content Include="Content\css\bootstrap\modals.less" />
+    <Content Include="Content\css\bootstrap\navbar.less" />
+    <Content Include="Content\css\bootstrap\navs.less" />
+    <Content Include="Content\css\bootstrap\normalize.less" />
+    <Content Include="Content\css\bootstrap\pager.less" />
+    <Content Include="Content\css\bootstrap\pagination.less" />
+    <Content Include="Content\css\bootstrap\panels.less" />
+    <Content Include="Content\css\bootstrap\popovers.less" />
+    <Content Include="Content\css\bootstrap\print.less" />
+    <Content Include="Content\css\bootstrap\progress-bars.less" />
+    <Content Include="Content\css\bootstrap\responsive-utilities.less" />
+    <Content Include="Content\css\bootstrap\scaffolding.less" />
+    <Content Include="Content\css\bootstrap\tables.less" />
+    <Content Include="Content\css\bootstrap\theme.less" />
+    <Content Include="Content\css\bootstrap\thumbnails.less" />
+    <Content Include="Content\css\bootstrap\tooltip.less" />
+    <Content Include="Content\css\bootstrap\type.less" />
+    <Content Include="Content\css\bootstrap\utilities.less" />
+    <Content Include="Content\css\bootstrap\variables.less" />
+    <Content Include="Content\css\bootstrap\wells.less" />
+    <Content Include="Content\css\bootstrap.less" />
+    <Content Include="Content\css\example.less" />
+    <Content Include="Content\css\scaffolding.less" />
+    <Content Include="Content\font\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\font\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\font\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\build.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>build.js</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\TextTemplating\Microsoft.TextTemplating.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>59120</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:59120/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>
