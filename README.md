@@ -124,7 +124,7 @@ Views follow a similar pattern to _packages_. The _view_ folder structure mimics
 
 The _build.tt_ text template is used to generate the _build.js_ requirejs optimization configuration file. The current implementation of _built.tt_ will bundle all modules referenced by main in to a single file that will _always_ be loaded for each view. All _packages_ will also be bundled in to a single file (and potentially included in main if referenced). Finally, all _view_ files will be bundled together to ensure no more than two JavaScript file requests per page if desired.
 
-_NOTE: The example project uses a CDN for jQuery, Knockout and Bootstrap resulting in three additional requests. Any view file prefixed with a underscore (_) will be excluded from the build.js configuration._
+_NOTE: The example project uses a CDN for jQuery, Knockout and Bootstrap resulting in three additional requests. Any view file prefixed with a underscore ( `_` ) will be excluded from the build.js configuration._
 
 ## Build Process
 
