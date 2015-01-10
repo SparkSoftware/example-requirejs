@@ -120,8 +120,6 @@ _NOTE: The example application chooses to alias each package under a virtual fol
 
 Views follow a similar pattern to _packages_. The _view_ folder structure mimics the ASP.NET MVC convention for the most part. A view found at `views\home\index` will expect the main module to exist at `~/Content/js/view/home/index/main.js`. Why _main.js_ instead of _index.js_ you may ask? Two reasons, the first being that by using a folder to represent the view, all related views are kept organized. The second reason is that scanning for _main.js_ to find modules to optimize  is much nicer than trying to optmize down all files. 
 
-_NOTE: Minor modification will be required to support Areas_
-
 **Build.tt and Build.js**
 
 The _build.tt_ text template is used to generate the _build.js_ requirejs optimization configuration file. The current implementation of _built.tt_ will bundle all modules referenced by main in to a single file that will _always_ be loaded for each view. All _packages_ will also be bundled in to a single file (and potentially included in main if referenced). Finally, all _main_ view files will be bundled together to ensure no more than two JavaScript file requests per page if desired.
