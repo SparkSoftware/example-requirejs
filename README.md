@@ -73,7 +73,7 @@ Renders out a module name based on the relative path to the current view model.
 
     <div data-require="@Module("anotherModule")" />
 
-_NOTE: If the current view model is `view/home/index/main` then the returned module will be `view/home/index/anotherModule`_
+_NOTE: If the current view model is `view/home/index` then the returned module will be `view/home/anotherModule`_
      
 In addition to the above helper methods an additional property has been added `MainModule`  that will return the module name for the current view (i.e., _view/home/index/main_).
 
@@ -118,13 +118,13 @@ _NOTE: The example application chooses to alias each package under a virtual fol
 
 **Views**
 
-Views follow a similar pattern to _packages_. The _view_ folder structure mimics the ASP.NET MVC convention for the most part. A view found at `views\home\index` will expect the main module to exist at `~/Content/js/view/home/index/main.js`. Why _main.js_ instead of _index.js_ you may ask? Two reasons, the first being that by using a folder to represent the view, all related views are kept organized. The second reason is that scanning for _main.js_ to find modules to optimize  is much nicer than trying to optmize down all files. 
+Views follow a similar pattern to _packages_. The _view_ folder structure mimics the ASP.NET MVC convention for the most part. A view found at `views\home\index` will expect the main module to exist at `~/Content/js/view/home/index.js`.
 
 **Build.tt and Build.js**
 
-The _build.tt_ text template is used to generate the _build.js_ requirejs optimization configuration file. The current implementation of _built.tt_ will bundle all modules referenced by main in to a single file that will _always_ be loaded for each view. All _packages_ will also be bundled in to a single file (and potentially included in main if referenced). Finally, all _main_ view files will be bundled together to ensure no more than two JavaScript file requests per page if desired.
+The _build.tt_ text template is used to generate the _build.js_ requirejs optimization configuration file. The current implementation of _built.tt_ will bundle all modules referenced by main in to a single file that will _always_ be loaded for each view. All _packages_ will also be bundled in to a single file (and potentially included in main if referenced). Finally, all _view_ files will be bundled together to ensure no more than two JavaScript file requests per page if desired.
 
-_NOTE: The example project uses a CDN for jQuery, Knockout and Bootstrap resulting in three additional requests._
+_NOTE: The example project uses a CDN for jQuery, Knockout and Bootstrap resulting in three additional requests. Any view file prefixed with a underscore (_) will be excluded from the build.js configuration._
 
 ## Build Process
 
@@ -134,7 +134,7 @@ _NOTE: The example build script will copy back the versioned content files to th
 
 The published files may be found in the root `dist` folder. The un-optimized content files may be found in the `Content` folder. The optimized content files will be placed in a versioned content folder similar to `Content-0.0.0.0`. A versioned content folder is used as a cache busting mechanism. Although one could use [urlArgs](http://requirejs.org/docs/api.html#config-urlArgs) this has several undesirable side-effects. Most notably, if urlArgs is used, your CDN files will also be cache busted. In addition, some third-party libraries will pass down query string parameters resulting in unexpected side effects (i.e., MapQuest -- preventing map tiles from being cached).
 
-Given that content may exist in `Content` for development and debugging and in `Content.X.X.X.X` for production, several [UrlExtensions](https://github.com/SparkSoftware/Spark.Examples.RequireJs/blob/master/src/Example/Controllers/UrlExtensions.cs) exist to abstract away the underlying file source. 
+Given that content may exist in `Content` for development and debugging and in `Content-X.X.X.X` for production, several [UrlExtensions](https://github.com/SparkSoftware/Spark.Examples.RequireJs/blob/master/src/Example/Controllers/UrlExtensions.cs) exist to abstract away the underlying file source. 
 
 * _GetScriptBase()_ - Returns the root path to the script modules (i.e., _~/Content/js/_).
 * _Script(relativePath)_ - Returns a script path (i.e., `Url.Script("lib\module.js")` maps to _~/Content/js/lib/main.js_).
