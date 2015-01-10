@@ -12,21 +12,27 @@
         'knockout': 'empty:',
         'bootstrap': 'empty:'
     },
-<# 
+<#
 var basePath = Host.ResolvePath("js");
 var viewPath = basePath + "\\view\\";
 var libPath = basePath + "\\lib\\";
 #>
     modules: [{
             name: 'main'  
-<# foreach(var path in Directory.GetFiles(libPath, "package.js", SearchOption.AllDirectories)) { #>
+<# foreach (var package in Directory.GetFiles(libPath, "package.js", SearchOption.AllDirectories)) { #>
         }, {
-            name: '<#= path.Replace(basePath + '\\', "").Replace(".js", "").Replace("\\", "/") #>'
+            name: '<#= package.Replace(basePath + '\\', "").Replace(".js", "").Replace("\\", "/") #>'
 <# } #>
-<# foreach(var path in Directory.GetFiles(viewPath, "main.js", SearchOption.AllDirectories)) { #>
+<# foreach (var controller in Directory.GetDirectories(viewPath, "*", SearchOption.AllDirectories)) 
+   { 
+     foreach (var action in Directory.GetFiles(controller, "*.js", SearchOption.TopDirectoryOnly)) 
+	 { 
+       if (Path.GetFileName(action).StartsWith("_")) 
+		 continue; #>
         }, {
-            name: '<#= path.Replace(basePath + '\\', "").Replace(".js", "").Replace("\\", "/") #>', exclude: ['main']
-<# } #>
+            name: '<#= action.Replace(basePath + '\\', "").Replace(".js", "").Replace("\\", "/") #>', exclude: ['main']
+<#   }
+   } #>
         }
      ]
 })

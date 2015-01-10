@@ -1,4 +1,4 @@
-﻿define(['pkg/jquery', './address', './email'], function ($, address, email) {
+﻿define(['pkg/jquery', './shared/_address', './shared/_email'], function ($, address, email) {
     $.log('Loaded: view/home/contact');
 
     return {

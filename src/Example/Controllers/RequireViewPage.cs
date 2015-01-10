@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
@@ -25,9 +24,10 @@ namespace Spark.Example.MultiPageMvcWithRequireJs.Controllers
             get
             {
                 var routeData = ViewContext.RouteData;
+                var area = routeData.Values["Area"] as String;
                 var action = routeData.Values["Action"] as String;
                 var controller = routeData.Values["Controller"] as String;
-                var moduleName = String.IsNullOrWhiteSpace(action) || String.IsNullOrWhiteSpace(controller) ? null : RequireModule.GetModuleName(Server.MapPath(Url.GetScriptBase()), controller, action);
+                var moduleName = String.IsNullOrWhiteSpace(action) || String.IsNullOrWhiteSpace(controller) ? null : RequireModule.GetModuleName(Server.MapPath(Url.GetScriptBase()), controller, action, area);
 
                 return new HtmlString(moduleName);
             }
