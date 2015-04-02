@@ -17,7 +17,7 @@ namespace Spark.Example.MultiPageMvcWithRequireJs.Controllers
     public abstract class RequireViewPage<TModel> : WebViewPage<TModel>
     {
         /// <summary>
-        /// The requirejs module id associated with this view page (i.e., 'view/{controller}/{action}/main')
+        /// The requirejs module id associated with this view page (i.e., 'view/{controller}/{action}.js' or 'view/{area}/{controller}/{action}.js')
         /// </summary>
         public HtmlString MainModule
         {
